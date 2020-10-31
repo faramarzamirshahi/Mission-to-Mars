@@ -15,7 +15,8 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        "last_modified": dt.datetime.now()
+        "last_modified": dt.datetime.utcnow(),
+        "hemispheres": mars_hemisphere(browser)
     }
        # Stop webdriver and return data
     browser.quit()
@@ -80,6 +81,32 @@ def mars_facts():
     df.columns=['description', 'value']
     df.set_index('description', inplace=True)
     return df.to_html()
+
+def mars_hemisphere(browser):
+    url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    browser.visit(url)
+    hemisphere_image_urls = []
+    thumb_html = browser.html
+    html_soup = soup(thumb_html,'html.parser')
+    items = html_soup.find_all('div', class_='item')
+    for item in items:
+        href_element = item.find('a',class_='itemLink product-item')
+        href = href_element['href']
+        href = f'https://astrogeology.usgs.gov/{href}'
+        hemisphere_image_urls.append({'title':item.div.a.text,'href':href})
+    def jpg_href(url):
+        # return the jpeg url
+        browser.visit(url)
+        html = browser.html
+        soup_=soup(html,'html.parser')
+        elem=soup_.find('div',class_='downloads')
+        href=elem.find('a').get('href')
+        return href
+    for i in range(len(hemisphere_image_urls)):
+        url = hemisphere_image_urls[i]['href']
+        jpg = jpg_href(url)
+        hemisphere_image_urls[i]['img_url']=jpg
+    return hemisphere_image_urls
 
 if __name__ == "__main__":
     # If running as script, print scraped data

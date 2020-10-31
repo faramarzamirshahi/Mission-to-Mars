@@ -1,5 +1,7 @@
 # My list
 Practice.ipynb
+scraping_copy.py
+templates/index_copy.html
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
