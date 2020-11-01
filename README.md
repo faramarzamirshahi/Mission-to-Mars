@@ -11,6 +11,7 @@ We first build a list of dictionary elements `hemisphere_image_urls` by scraping
 We then go through each item in this list to get the related full resoluion jpge image<br>
 The function `def jpg_href(url)` returns the url for the related image.<br>
 We add the new code as function `def mars_hemisphere(browser)` to the `scraping.py`<br>
+to store the results in the mongodb and display it to the user<br>
 Finally we call the function in the `app.py` and modify the `index.html` <br>
 We used the bootstrap style sheet for styling the site. Note the use of the thumbnail class for displaying the images on the main page.
 ```
@@ -32,12 +33,6 @@ We used the bootstrap style sheet for styling the site. Note the use of the thum
         </div><!-- Mars hemisphere END -->
 
 ```
-to store the results in the mongodb and display it to the user<br>
 ![Mars hemisphere](Resources/hemisphere.png)<br>
 Clicking the hemisphere link will take us to the high resolution image of the image<br>
 ![cerberus_enhanced.tif/full.jpg](Resources/fullRes.png)
-
-
-
-
-
